@@ -1,0 +1,2 @@
+Fireball;Freeze;fireball;10;500;DAMAGE;50
+Freeze;Freeze 2;fireball;10;250;DAMAGE;50

@@ -1,4 +1,7 @@
 package com.alexrose.candy;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -68,52 +71,20 @@ public class CandyBoxGame{
 	}
 
 	public void createItemsInGame(){
-		//price, max Health, damage, defense
-		//Make items more expensive
-		Item woodSword = new Item("Wood Sword", 100, 0, 12, 0);
-		allItems.add(woodSword);//good
-		Item ironSword = new Item("Iron Sword", 300, 0, 30, 0);
-		allItems.add(ironSword);//good
-		Item bronzeSword = new Item("Bronze Sword", 700, 0, 100, 0);
-		allItems.add(bronzeSword);
-		Item machete = new Item("Manly Machete", 750, 0, 150, 0);
-		allItems.add(machete);
-		Item diamondSword = new Item("Diamon Sword", 1500, 0, 300, 0);
-		allItems.add(diamondSword);
-		Item fireSword = new Item("Fire Sword", 2500, 0, 400, 0);
-		allItems.add(fireSword);
-		Item darkSword = new Item("Dark Sword", 4000, 0, 600, 0);
-		allItems.add(darkSword);
-		Item lightSword = new Item("Light Sword", 4000, 0, 100, 0);
-		allItems.add(lightSword);
-		Item earthSword = new Item("Earth Sword", 2500, 0, 300, 0);
-		allItems.add(earthSword);
-		Item waterSword = new Item("Water Sword", 2500, 0, 400, 0);
-		allItems.add(waterSword);
-		Item dragonSword = new Item("Dragon Sword", 10000, 0, 2000, 0);
-		allItems.add(dragonSword);
-		Item leatherArmor = new Item("Leather Armor", 200, 5, 0, 10);
-		allItems.add(leatherArmor);
-		Item ironArmor = new Item("Iron Armor", 600, 30, 0, 40);
-		allItems.add(ironArmor);
-		Item bronzeArmor = new Item("Bronze Armor", 1200, 50, 0, 80);
-		allItems.add(bronzeArmor);
-		Item diamondArmor = new Item("Diamond Armor", 400, 100, 0, 150);
-		allItems.add(diamondArmor);
-		Item steelArmor = new Item("Steel Armor", 300, 70, 0, 100);
-		allItems.add(steelArmor);
-		Item chainMailArmor = new Item("Chainmail Armor", 1000, 200, 0, 400);
-		allItems.add(chainMailArmor);
-		Item dragonArmor = new Item("Dragon Scaled Armor", 10000, 3000, 0, 5000);
-		allItems.add(dragonArmor);
-		Item healthNecklace = new Item("Necklace Of Health", 1000, 500, 0, 0);
-		allItems.add(healthNecklace);
-		Item strengthNecklace = new Item("Necklace Of Strength", 1500, 0, 500, 0);
-		allItems.add(strengthNecklace);
-		Item defenceNecklace = new Item("Necklace Of Defense", 1500, 0, 0, 500);
-		allItems.add(defenceNecklace);
-		Item godNecklace = new Item("Necklace From The Gods", 20000, 3000, 3000, 3000);
-		allItems.add(healthNecklace);
+		
+		try {
+		    BufferedReader inputReader = new BufferedReader(new InputStreamReader(
+		           Candybox.activity.getAssets().open("Items.txt")));
+		    String inputString;               
+		    while ((inputString = inputReader.readLine()) != null) {
+		    	String[] tokens = inputString.split(";");
+		    	allItems.add(new Item(tokens[0], Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]),
+		    			Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4])));
+
+		    }
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
 	}
 
 
@@ -152,7 +123,7 @@ public class CandyBoxGame{
 		if(allForestQuests.get(0).isUnlocked() == false){
 			for(int p = 0; p < inventory.size(); p++){
 				String name = inventory.get(p).getName();
-				if(name == "Wood Sword"){
+				if(name.equals("Wood Sword")){
 					unlockNextQuest();
 				}
 
@@ -232,8 +203,21 @@ public class CandyBoxGame{
 		
 		skillTree = new SkillTree(shield, heal, fireball);
 		
-		skillTree.add("Fireball", "Freeze", Assets.fireballIcon, 10, 500, Category.DAMAGE, 50);
-		skillTree.add("Freeze", "Freeze 2", Assets.fireballIcon, 10, 250, Category.DAMAGE, 50);
+		try {
+		    BufferedReader inputReader = new BufferedReader(new InputStreamReader(
+		           Candybox.activity.getAssets().open("Skills.txt")));
+		    String inputString;               
+		    while ((inputString = inputReader.readLine()) != null) {
+		    	String[] tokens = inputString.split(";");
+		    	skillTree.add(tokens[0], tokens[1], Assets.hashmap.get(tokens[2]), Integer.parseInt(tokens[3]),
+		    			Integer.parseInt(tokens[4]), Category.valueOf(tokens[5]), Integer.parseInt(tokens[6]));
+
+		    }
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		
+		
 		
 	}
 	

@@ -80,7 +80,7 @@ public class QuestBattleScreen extends ButtonScreen {
 
 					if(button.inButtonBounds(event) == true){
 						QuestAbility currentAbility = getAbility(button.image);
-						
+
 						if(currentAbility.isCoolingDown() == false){
 							battle.setAbility(currentAbility);
 							Log.d("YOLO", currentAbility.getAbility().getName());
@@ -99,10 +99,13 @@ public class QuestBattleScreen extends ButtonScreen {
 		g.drawString("Step: " + battle.getStepSlot() + " of " + battle.getTotalSteps(), 10, 400, paint);
 		if(battle.getCurrentStep().containsMonster() == true){
 			g.drawString("You have encountered a monster!", 10, 450, paint);
-			//crashed here once
-			g.drawString("Encounter: " + battle.getEnemy().getName(), 10, 500, paint);
-			g.drawString("Enemy's Health: " + battle.getEnemy().getCurrentHealth() + " (Defense: " + battle.getEnemy().getCurrentDefense() + ")",10,600,paint);
-
+			//crashed here once, tried to fix with if statement
+			if(battle.getEnemy()!=null){
+				g.drawString("Encounter: " + battle.getEnemy().getName(), 10, 500, paint);
+			}
+			if(battle.getEnemy()!=null){
+				g.drawString("Enemy's Health: " + battle.getEnemy().getCurrentHealth() + " (Defense: " + battle.getEnemy().getCurrentDefense() + ")",10,600,paint);
+			}
 			if(battle.getSelectedAbility() != null){
 				g.drawString("You have activated: " + battle.getSelectedAbility().getAbility().getName(), 10, 650, paint);
 			}

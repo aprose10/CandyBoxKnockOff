@@ -2,6 +2,8 @@ package com.alexrose.candy;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 import com.alexrose.candy.Ability.Category;
 import com.alexrose.framework.Image;
 
@@ -40,7 +42,7 @@ public class SkillTree {
 	}
 	
 	public SkillTreeNode checkNodeByName(SkillTreeNode givenNode, String name){
-		if(givenNode.getAbility() != null && givenNode.getAbility().getName() == name){
+		if(givenNode.getAbility() != null && givenNode.getAbility().getName().equals(name)){
 			return givenNode;
 		}else{
 			ArrayList<SkillTreeNode> children = givenNode.getChildren();
