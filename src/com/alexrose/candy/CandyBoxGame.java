@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import com.alexrose.candy.Ability.Category;
 
@@ -18,18 +19,20 @@ public class CandyBoxGame{
 	private ArrayList<Item> allItems = new ArrayList<Item>();
 	private ArrayList<Item> storeItems = new ArrayList<Item>();
 	private ArrayList<Item> inventory = new ArrayList<Item>();
-	private ArrayList<Ability> selectedAbilities = new ArrayList<Ability>();
+	private Ability[] selectedAbilities = new Ability[3];
 	private static Character character;
 	private ArrayList<Quest> allForestQuests = new ArrayList<Quest>();
 	private SkillTree skillTree;
+	private HashMap<String, Character> allEnemies =  new HashMap<String, Character>();
 
 	public CandyBoxGame(int gold){
 		this.gold = gold + 150000;
 		lastGoldUpdate = new Date();
 		createItemsInGame();
-		createQuests();
 		character = new Character("Hero",10000,10,10);
 		createAbilities();
+		createEnemies();
+		createQuests();
 	}
 
 	public void update(){
@@ -110,14 +113,65 @@ public class CandyBoxGame{
 		
 		return storeItems;
 	}
+	
+	public String getBestWeapon(){
+		int best = 0;
+		Item bestWeaponSoFar =  null;
+		for(int x = 0; x < inventory.size(); x++){
+			if(inventory.get(x).getIncreaseDamage() > best){
+				bestWeaponSoFar = inventory.get(x);
+				best = inventory.get(x).getIncreaseDamage();
+			}
+		}
+		if(bestWeaponSoFar != null){
+			return bestWeaponSoFar.getName();
+		}
+		else{
+			return "";
+		}
+	}
+	
+	public String getBestArmor(){
+		int best = 0;
+		Item bestArmorSoFar =  null;
+		for(int x = 0; x < inventory.size(); x++){
+			if(inventory.get(x).getIncreaseDefense() > best){
+				bestArmorSoFar = inventory.get(x);
+				best = inventory.get(x).getIncreaseDefense();
+			}
+		}
+		if(bestArmorSoFar != null){
+			return bestArmorSoFar.getName();
+		}
+		else{
+			return "";
+		}
+	}
+	
+	public String getBestAmulet(){
+		int best = 0;
+		Item bestAmuletSoFar =  null;
+		for(int x = 0; x < inventory.size(); x++){
+			if(inventory.get(x).getIncreaseHealth() > best){
+				bestAmuletSoFar = inventory.get(x);
+				best = inventory.get(x).getIncreaseHealth();
+			}
+		}
+		if(bestAmuletSoFar != null){
+			return bestAmuletSoFar.getName();
+		}
+		else{
+			return "";
+		}
+	}
 
-	public void createQuests(){
+	/*public void createQuests(){
 		aMellowMeadow meadow = new aMellowMeadow();
 		allForestQuests.add(meadow);
 
 		TrollValley valley = new TrollValley();
 		allForestQuests.add(valley);
-	}
+	}*/
 
 	public void checkQuests(){
 		if(allForestQuests.get(0).isUnlocked() == false){
@@ -194,12 +248,18 @@ public class CandyBoxGame{
 	}
 	
 	public void createAbilities(){
+		//Only activates first one because it is in damage category
+		Ability sheepSpell = new Ability("BAHHH",Assets.sheepIcon, 0, 300, Category.DAMAGE, 0);
+		selectedAbilities[0] = sheepSpell;
+		selectedAbilities[1] = sheepSpell;
+		selectedAbilities[2] = sheepSpell;
+		
+		 Log.d("YOLO", "SHEEP IMG "+  Assets.sheepIcon);
+	     Log.d("YOLO", "UP IMG "+  Assets.upArrow);
+		
 		Ability shield = new Ability("Shield",Assets.shieldIcon,  10, 1000, Category.DEFENSIVE, 100);
-		selectedAbilities.add(shield);
 		Ability heal = new Ability("Heal",Assets.healIcon, 10, 1000, Category.HEALING, 100);
-		selectedAbilities.add(heal);
 		Ability fireball = new Ability("Fireball",Assets.fireballIcon, 10, 2000, Category.DAMAGE, 1000);
-		selectedAbilities.add(fireball);
 		
 		skillTree = new SkillTree(shield, heal, fireball);
 		
@@ -221,8 +281,57 @@ public class CandyBoxGame{
 		
 	}
 	
-	public ArrayList<Ability> getAbilities(){
+	public Ability[] getAbilities(){
 		return selectedAbilities;
+	}
+	
+	public void createEnemies(){
+		try {
+		    BufferedReader inputReader = new BufferedReader(new InputStreamReader(
+		           Candybox.activity.getAssets().open("Enemies.txt")));
+		    String inputString;               
+		    while ((inputString = inputReader.readLine()) != null) {
+		    	String[] tokens = inputString.split(";");
+		    	Character addedCharacter = new Character(tokens[0], Integer.parseInt(tokens[1]), 
+		    			Integer.parseInt(tokens[2]),Integer.parseInt(tokens[3]));
+		    	allEnemies.put(tokens[0], addedCharacter);
+
+		    	
+		    }
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+	}
+	
+	public void createQuests(){
+		try {
+		    BufferedReader inputReader = new BufferedReader(new InputStreamReader(
+		           Candybox.activity.getAssets().open("Quests.txt")));
+		    String inputString;               
+		    while ((inputString = inputReader.readLine()) != null) {
+		    	String[] questTokens = inputString.split(";");
+		    	String enemiesString = questTokens[4];
+		    	ArrayList<Character> enemies = new ArrayList<Character>();
+		    	String[] enemyTokens = enemiesString.split("~");
+		    	
+				for(int x = 0; x < enemyTokens.length; x++){
+					String[] enemyDetailTokens = enemyTokens[x].split("#");
+		
+					Character enemy = new Character(allEnemies.get(enemyDetailTokens[0]));
+					for(int a = 0; a < Integer.parseInt(enemyDetailTokens[1]); a++){
+						enemies.add(enemy);
+						
+					}
+				}
+				
+				Quest quest = new Quest(questTokens[0], Integer.parseInt(questTokens[2]), 
+						Integer.parseInt(questTokens[3]), enemies);
+				//Eventually look at catergory creation	
+				allForestQuests.add(quest);
+		    }
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
 	}
 
 }

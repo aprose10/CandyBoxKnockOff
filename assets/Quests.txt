@@ -1,0 +1,2 @@
+A Mellow Meadow;Forest;15;10000;Angry Shrub#10
+Troll Valley;Forest;30;30;Baby Troll#10~Bigger Troll#5~King Troll#1

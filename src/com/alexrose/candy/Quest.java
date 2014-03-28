@@ -1,8 +1,10 @@
 package com.alexrose.candy;
 import java.util.ArrayList;
 
+import android.util.Log;
 
-public abstract class Quest {
+
+public class Quest {
 	
 	private String name;
 	private int numberOfSteps;
@@ -10,7 +12,7 @@ public abstract class Quest {
 	private boolean unlocked;
 	private ArrayList<QuestStep> questSteps = new ArrayList<QuestStep>();
 	
-	public Quest(String name, int numberOfSteps, int reward){
+	public Quest(String name, int numberOfSteps, int reward, ArrayList<Character> enemies){
 		this.name = name;
 		this.numberOfSteps = numberOfSteps;
 		this.reward = reward;
@@ -18,7 +20,7 @@ public abstract class Quest {
 		unlocked = false;
 		
 		createSteps();
-		createEnemies();
+		placeEnemiesOnQuestSteps(enemies);
 	}
 	
 	public Quest(Quest quest){
@@ -35,15 +37,15 @@ public abstract class Quest {
 		
 	}
 	
-	public abstract void createEnemies();
 	
-	public void addEnemies(ArrayList<Character> enemies){
+	public void placeEnemiesOnQuestSteps(ArrayList<Character> enemies){
 		for(int z = 0; z < enemies.size(); z++){
 			int randomNum = 0 + (int)(Math.random()*questSteps.size());
 			while(questSteps.get(randomNum).containsMonster() == true){
 				randomNum = 0 + (int)(Math.random()*questSteps.size());
 			}
 			questSteps.get(randomNum).setEnemy(enemies.get(z));
+			
 		}
 	}
 	

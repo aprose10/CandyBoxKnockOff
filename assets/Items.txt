@@ -1,2 +1,39 @@
 Wood Sword;100;0;12;0
+Cracked Rock Sword;150;0;20;0
 Iron Sword;300;0;30;0
+Bronze Sword;700;0;70;0
+Large Machete;1000;0;100;0
+A Pimps Stick;1300;0;150;0
+Crappy Metal Fists of Pain;1500;0;175;0
+Gold Diamond-Encrusted Brass Knuckels;2500;0;250;0
+Gaint Demon-Slaying Sword;3500;0;350;0
+Super Epic Awesome Headsplitting Sword of Awesomeness;5000;0;500;0
+Lucky Sword of Luck;7777;0;777;0
+Handcrafted Diamond Sword of Ultimate Power;10000;0;1000;0
+Gods Gift;100000;0;5000;0
+The Ultimate RPG End Game Sword For Ultimate Destruction;1000000;0;10000;0
+Smelly Leather Plates;100;0;0;50
+Super Sturdy Leather Plates;250;0;0;100
+Iron Chain Mail;500;0;0;250
+Bronze Plated Chain Mail;1000;0;0;400
+A Pimps Fluffy Jacket;1300;0;0;450
+Shiny Armor;2000;0;0;550
+Davy Jones Smelly Socks;3000;0;0;650
+Sewn by Blind Nuns Silk Tunic;5000;0;0;800
+Heavy Armor;8000;0;0;1100
+Plates Stripped from Tanks;10000;0;0;2000
+Holy Diamond Chest Plate;15000;0;0;4000
+Never Die Armor Set;25000;0;0;7000
+Jeweled Amulet;100;100;0;0
+Health Amulet;300;200;0;0
+Golden Amulet;600;300;0;0
+Family Jewels Pendant;1000;500;0;0
+The Kings Crystal Amulet;1500;700;0;0
+Blessed Necklace from the Gods;2500;1000;0;0
+Enchanted Voodoo Necklace;4000;4000;0;0
+The Helping Hand;6000;5500;0;0
+Wealthy Man's Necklace;7777;7777;0;0
+Diamond Amulet;10000;9000;0;0
+Super Shiny Pendant of Very Shine;15000;13000;0;0
+Such Health Much Wow;25000;20000;0;0
+. . .;66666;66666;6666;6666

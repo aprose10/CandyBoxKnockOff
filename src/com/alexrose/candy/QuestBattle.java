@@ -15,10 +15,11 @@ public class QuestBattle {
 	private ArrayList<QuestAbility> questAbilities = new ArrayList<QuestAbility>();
 	private int abilityDamage = 0;
 	
-	public QuestBattle(Quest quest, ArrayList<Ability> abilities){
-		this.quest = new QuestCopy(quest);
-		for(int a = 0; a < abilities.size(); a++){
-			QuestAbility questAbility = new QuestAbility (abilities.get(a));
+	public QuestBattle(Quest quest, Ability[] abilities){
+		this.quest = new Quest(quest);
+		for(int a = 0; a < abilities.length; a++){
+			QuestAbility questAbility = new QuestAbility (abilities[a]);
+			
 			questAbilities.add(questAbility);
 		}
 	}

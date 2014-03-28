@@ -78,6 +78,7 @@ public class ButtonScreen extends Screen{
 		}
 
 		if(isScrollable){
+			//crashed here w index out of bounds when no items to buy
 			if(buttonInLockPos(buttons.get(1)) == false){
 				g.drawImage(Assets.upArrow, 0, 0);
 			}

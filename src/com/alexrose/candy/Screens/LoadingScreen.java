@@ -1,6 +1,8 @@
 package com.alexrose.candy.Screens;
 
 
+import android.util.Log;
+
 import com.alexrose.framework.Game;
 import com.alexrose.framework.Graphics;
 import com.alexrose.framework.Screen;
@@ -24,7 +26,9 @@ public class LoadingScreen extends Screen {
         Assets.backButton = g.newImage("Back Button.png", ImageFormat.ARGB4444);
         Assets.buttonLOCKED = g.newImage("testButtonLOCKED.png", ImageFormat.ARGB4444);
         Assets.downArrow = g.newImage("downArrow.jpg", ImageFormat.ARGB4444);
-        Assets.upArrow = g.newImage("upArrow.jpg", ImageFormat.ARGB4444);
+        Assets.upArrow = g.newImage("upArrow.jpg", ImageFormat.ARGB4444);   
+       
+        
        
     }
 

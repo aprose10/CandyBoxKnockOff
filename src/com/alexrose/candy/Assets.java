@@ -19,6 +19,7 @@ public class Assets {
     public static Image healIcon;
     public static Image upArrow;
     public static Image downArrow;
+    public static Image sheepIcon;
     public static HashMap<String, Image> hashmap;
     public static void load(Candybox candybox) {
     	hashmap = new HashMap<String, Image>();
@@ -35,5 +36,6 @@ public class Assets {
         hashmap.put("shield", Assets.shieldIcon);
         Assets.healIcon = g.newImage("healthIcon.jpg", ImageFormat.ARGB4444);
         hashmap.put("heal", Assets.healIcon);
+        Assets.sheepIcon = g.newImage("sheepIcon.png", ImageFormat.ARGB4444);
     }
 }

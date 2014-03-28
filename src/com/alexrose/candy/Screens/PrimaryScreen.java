@@ -50,11 +50,11 @@ public class PrimaryScreen extends ButtonScreen {
 
 		Button storeButton = new Button(20, 375, Assets.button, "Store");
 		Button questButton = new Button(20, 495, (Candybox.game.getCharacter().isAlive() ? Assets.button : Assets.buttonLOCKED), "Quests");
-		Button inventoryButton = new Button(20, 615, Assets.button, "Inventory");
+		Button characterButton = new Button(20, 615, Assets.button, "Character");
 
 		buttons.add(storeButton);
 		buttons.add(questButton);
-		buttons.add(inventoryButton);
+		buttons.add(characterButton);
 
 		/*SaveGameState gameState = Candybox.loadGame();
 		if(gameState != null){
@@ -89,9 +89,9 @@ public class PrimaryScreen extends ButtonScreen {
 						game.setScreen(new StoreItemsScreen(game));
 						return;
 					}
-					else if(button.name == "Inventory"){
+					else if(button.name == "Character"){
 						Candybox.game.update();
-						game.setScreen(new InventoryScreen(game));
+						game.setScreen(new CharacterScreen(game));
 						return;
 					}
 				}

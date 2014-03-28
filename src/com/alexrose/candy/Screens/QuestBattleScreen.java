@@ -19,7 +19,12 @@ import com.alexrose.framework.Graphics;
 import com.alexrose.framework.Image;
 import com.alexrose.framework.Screen;
 import com.alexrose.framework.Input.TouchEvent;
-
+/*
+ * 
+ * 
+ * 
+ * anyskill use resets all other skills
+ */
 public class QuestBattleScreen extends ButtonScreen {
 	public QuestBattle battle;
 	public Button winLoseButton;

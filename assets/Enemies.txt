@@ -1,0 +1,4 @@
+Angry Shrub;100;20;10
+Baby Troll;50;10;150
+Bigger Troll;100;20;200
+King Troll;200;30;300
