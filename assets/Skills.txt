@@ -1,3 +1,13 @@
-Fireball;Freeze;fireball;10;500;DAMAGE;50
-Freeze;Freeze 2;fireball;10;250;DAMAGE;50
-Freeze 2;Freeze 3;fireball;10;100;DAMAGE;50
+Fireball;Improved Fireball;fireball;0;500;DAMAGE;50
+Fireball;Fireball 2;fireball;0;500;DAMAGE;50
+Improved Fireball;Flame Thrower;fireball;10;500;DAMAGE;100
+Flame Thrower;Meteor Shower;fireball;10;1000;DAMAGE;300
+Meteor Shower;Star Fall;fireball;20;2000;DAMAGE;500
+Shields Up;Block;shield;0;500;DEFENSIVE;100
+Shields Up;Helmet;shield;0;500;DEFENSIVE;100
+Shields Up;Chest Armor;shield;0;500;DEFENSIVE;100
+Block;Iron Skin;shield;10;2000;DEFENSIVE;500
+Iron Skin;Impenetrable Armor;shield;20;1000;DEFENSIVE;300
+Bandages;Magic Healing;heal;0;500;HEALING;200
+Magic Healing;Blessing;heal;10;100;HEALING;50
+Blessing;God's Gift;heal;10;1000;HEALING;500

@@ -1,2 +1,10 @@
-A Mellow Meadow;Forest;15;10000;Angry Shrub#10
-Troll Valley;Forest;30;30;Baby Troll#10~Bigger Troll#5~King Troll#1
+A Mellow Meadow;Forest;15;50;Angry Shrub#10
+Troll Valley;Forest;30;100;Baby Troll#10~Bigger Troll#5~King Troll#1
+Ice Capped Mountain;Forest;20;300;Baby Snow Wolf#10~Mother Snow Wolf#3~Yeti#1
+Dark Trail;Forest;40;500;Haunting Ghost#20~Spooky Giant Bat#5~Poison Cobra#10
+Haunted Town;Forest;20;600;Corrupted Farmer#8~Corrupted Merchant#3~Corrupted Little Girl#3~Corrupted Governor#1
+River Bank;Golden Pathway;10;700;Mutated Fish#5;Mutated Boar#5
+Other Side of the River;Golden Pathway;30;900;Poison Piles of Corpses#10~Mutated Rat#15~Angry Leprechaun#1
+Golden Pathway;Golden Pathway;50;1200;Squeeky Tin Man#15~Scared Lion#15~Very Scary Scarecrow#10;ANGRY LITTLE GIRL#1
+Portal to HELL;Golden Pathway;3;3000;Satan's Servant#1
+Satan's Mansion;HELL;40;5000;Satan's Cleaners#20~Satan's Butlers#10~Satan's Body Guard#1

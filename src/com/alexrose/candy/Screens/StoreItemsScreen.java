@@ -30,7 +30,7 @@ public class StoreItemsScreen extends ButtonScreen {
 
 	public void createButtons(ArrayList<Item> storeItems){
 		for(int a = 0; a < storeItems.size(); a++){
-			Button itemButton = new Button (20, (100 + (100*a)), Assets.button, storeItems.get(a).getName());
+			Button itemButton = new Button (20, (100 + (105*a)), Assets.button, storeItems.get(a).getName());
 			buttons.add(itemButton);
 		}
 	}

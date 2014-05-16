@@ -5,14 +5,19 @@ import java.util.ArrayList;
 
 public class SkillTreeNode {
 	private Ability ability;
-	private boolean isHidden;
 	private ArrayList<SkillTreeNode> children = new ArrayList<SkillTreeNode>();
 	private boolean isUnlocked;
+	private SkillTreeNode parentNode;
 	
-	public SkillTreeNode(Ability ability){
+	public SkillTreeNode(Ability ability, SkillTreeNode parent){
 		this.ability = ability;
-		isHidden = true;
 		isUnlocked = false;
+		this.parentNode = parent;
+	}
+	
+	public SkillTreeNode getParentNode(){
+		return parentNode;
+		
 	}
 	
 	public ArrayList<SkillTreeNode> getChildren(){
@@ -30,16 +35,10 @@ public class SkillTreeNode {
 	public boolean getIsUnlocked(){
 		return isUnlocked;
 	}
-	
-	public boolean getIsHidden(){
-		return isHidden;
-	}
+
 	
 	public void unlock(){
 		isUnlocked = true;
 	}
-	
-	public void makeVisible(){
-		isHidden = false;
-	}
+
 }

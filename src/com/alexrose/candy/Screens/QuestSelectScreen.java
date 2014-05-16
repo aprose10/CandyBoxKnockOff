@@ -21,7 +21,7 @@ public class QuestSelectScreen extends ButtonScreen {
 	public ArrayList<Quest> quests;
 
 	public QuestSelectScreen(Game game, ArrayList<Quest> quests) {
-		super(game, true, true);
+		super(game, true, false);
 
 		this.quests = quests;
 

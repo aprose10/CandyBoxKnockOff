@@ -2,6 +2,7 @@ package com.alexrose.candy.Screens;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,6 +10,7 @@ import android.graphics.Paint;
 import com.alexrose.candy.Assets;
 import com.alexrose.candy.Button;
 import com.alexrose.candy.Candybox;
+import com.alexrose.candy.Quest;
 import com.alexrose.candy.Screens.PrimaryScreen.GameState;
 import com.alexrose.framework.Game;
 import com.alexrose.framework.Graphics;
@@ -17,7 +19,8 @@ import com.alexrose.framework.Input.TouchEvent;
 
 public class QuestCategoryScreen extends ButtonScreen {
 	Paint paint;
-	
+
+
 	public QuestCategoryScreen(Game game) {
 		super(game, true, true);
 
@@ -30,10 +33,24 @@ public class QuestCategoryScreen extends ButtonScreen {
 		paint.setAntiAlias(true);
 		paint.setColor(Color.WHITE);
 
-		Button forestButton = new Button (20, 125, Assets.button, "Forest");
+		Set<String> categories = Candybox.game.getQuestCategories();
+		for(int a = 0; a < categories.size(); a++){
+			Button myButton = new Button (20, 125 + a*120, Assets.buttonLOCKED, (String) categories.toArray()[a]);
+			tryUnlockCategory(myButton, (String) categories.toArray()[a]);
+			buttons.add(myButton);
+		}
 
-		buttons.add(forestButton);
 
+	}
+
+	public void tryUnlockCategory(Button button, String category){
+		ArrayList<Quest> questsInCategory = Candybox.game.getQuests(category);
+		for(int a = 0; a < questsInCategory.size();a++){
+			if(questsInCategory.get(a).isUnlocked() == true){
+				button.enableButton();
+				return;
+			}
+		}
 	}
 
 
@@ -46,8 +63,8 @@ public class QuestCategoryScreen extends ButtonScreen {
 			for (Button button : buttons) {
 
 				if(button.inButtonBounds(event) == true){
-					if(button.name == "Forest"){
-						game.setScreen(new QuestSelectScreen(game,Candybox.game.getForestQuests()));
+					if(button.name != ""){
+						game.setScreen(new QuestSelectScreen(game,Candybox.game.getQuests(button.name)));
 						return;
 					}
 					else if(button.name == ""){

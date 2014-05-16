@@ -48,7 +48,7 @@ public class ItemStatScreen extends ButtonScreen{
 					}
 					
 					else if(button.name == "Buy"){
-						Candybox.game.purchaseItem(item);
+						Candybox.game.purchaseItem(item, true);
 						Log.d("YOLO", "You have purchased: " + item );
 						game.setScreen(new PrimaryScreen(game));
 						return;

@@ -11,6 +11,8 @@ public class Button {
 
 	static Paint buttonPaint;
 	static Paint buttonPaint2;
+	static Paint buttonPaint3;
+	static Paint buttonPaint4;
 	public int positionX;
 	public int positionY;
 	public Image image;
@@ -38,6 +40,22 @@ public class Button {
 			buttonPaint2.setAntiAlias(true);
 			buttonPaint2.setColor(Color.WHITE);
 		}
+		
+		if(buttonPaint3 == null){
+			buttonPaint3 = new Paint();
+			buttonPaint3.setTextSize(30);
+			buttonPaint3.setTextAlign(Paint.Align.CENTER);
+			buttonPaint3.setAntiAlias(true);
+			buttonPaint3.setColor(Color.WHITE);
+		}
+		
+		if(buttonPaint4 == null){
+			buttonPaint4 = new Paint();
+			buttonPaint4.setTextSize(15);
+			buttonPaint4.setTextAlign(Paint.Align.CENTER);
+			buttonPaint4.setAntiAlias(true);
+			buttonPaint4.setColor(Color.WHITE);
+		}
 
 
 	}
@@ -52,11 +70,20 @@ public class Button {
 	
 	public void drawButton(Graphics g){
 		g.drawImage(image, positionX, positionY);
-		if(smallFont(name) == false){
-		g.drawString(name, 240, positionY + 75, buttonPaint); 
-		}
-		else if(smallFont(name) == true){
-			g.drawString(name, 240, positionY + 75, buttonPaint2);
+		
+		g.drawString(name, 240, positionY + calculateHeightAdjustment(name.length()), getFont(name));
+		
+	}
+	
+	public int calculateHeightAdjustment(int length){
+		if(length <=9){
+			return 75;
+		}else if(length<=17){
+			return 65;
+		}else if(length <30){
+			return 60;
+		}else{
+			return 55;
 		}
 	}
 	
@@ -78,15 +105,19 @@ public class Button {
 		positionY = (int) (positionY + d);
 	}
 	
-	public boolean smallFont(String name){
+	public Paint getFont(String name){
 		int numberOfLetters = name.length();
-	if(numberOfLetters <=11){
-		return false;
-	}
-	else if(numberOfLetters > 11){
-		return true;
-	}
-	return false;
+		if(numberOfLetters <=9){
+			return buttonPaint;
+		}
+		else if(numberOfLetters <17){
+			return buttonPaint2;
+		}else if(numberOfLetters <30){
+			return buttonPaint3;
+		}
+		else{
+			return buttonPaint4;
+		}
 	}
 	
 }

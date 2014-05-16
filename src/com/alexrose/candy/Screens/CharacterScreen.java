@@ -5,7 +5,9 @@ import java.util.List;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 
+import com.alexrose.candy.Assets;
 import com.alexrose.candy.Button;
 import com.alexrose.candy.CandyBoxGame;
 import com.alexrose.candy.Candybox;
@@ -16,6 +18,7 @@ import com.alexrose.framework.Input.TouchEvent;
 
 public class CharacterScreen extends ButtonScreen {
 	Paint paint;
+	Paint headingPaint;
 	public CharacterScreen(Game game) {
 		super(game, true, false);
 
@@ -24,7 +27,21 @@ public class CharacterScreen extends ButtonScreen {
 		paint.setTextAlign(Paint.Align.LEFT);
 		paint.setAntiAlias(true);
 		paint.setColor(Color.WHITE);
-
+		
+		headingPaint = new Paint();
+		headingPaint.setFakeBoldText(true);
+		headingPaint.setTextSize(30);
+		headingPaint.setTextAlign(Paint.Align.LEFT);
+		headingPaint.setAntiAlias(true);
+		headingPaint.setColor(Color.WHITE);
+		
+		Button viewDamageTreeButton = new Button(380, 450, Assets.treeButton1, " ");
+		Button viewDefensiveTreeButton = new Button(380, 550, Assets.treeButton1, "  ");
+		Button viewHealingTreeButton = new Button(380, 650, Assets.treeButton1, "   ");
+		
+		buttons.add(viewDamageTreeButton);
+		buttons.add(viewDefensiveTreeButton);
+		buttons.add(viewHealingTreeButton);
 
 	}
 
@@ -40,6 +57,23 @@ public class CharacterScreen extends ButtonScreen {
 						game.setScreen(new PrimaryScreen(game));
 						return;
 					}
+					if(button.name == " "){
+						game.setScreen(new SkillTreeNodeScreen
+								(game, Candybox.game.getSkillTree().findNodeByAbilityName("Fireball")));
+						return;
+					}
+					
+					if(button.name == "  "){
+						game.setScreen(new SkillTreeNodeScreen
+								(game, Candybox.game.getSkillTree().findNodeByAbilityName("Shields Up")));
+						return;
+					}
+					
+					if(button.name == "   "){
+						game.setScreen(new SkillTreeNodeScreen
+								(game, Candybox.game.getSkillTree().findNodeByAbilityName("Bandages")));
+						return;
+					}
 				}
 			}
 		}
@@ -49,14 +83,15 @@ public class CharacterScreen extends ButtonScreen {
 		super.paint(deltaTime);
 
 		Graphics g = game.getGraphics();
-		g.drawString("Weapon: " + Candybox.game.getBestWeapon(), 20, 150, paint);
-		g.drawString("Armor: " + Candybox.game.getBestArmor(), 20, 250, paint);
-		g.drawString("Amulet: " + Candybox.game.getBestAmulet(), 20, 350, paint);
+		g.drawString("Your Best Equipment:", 20, 150, headingPaint);
+		g.drawString("Weapon: " + Candybox.game.getBestWeapon(), 50, 200, paint);
+		g.drawString("Armor: " + Candybox.game.getBestArmor(), 50, 250, paint);
+		g.drawString("Amulet: " + Candybox.game.getBestAmulet(), 50, 300, paint);
 		
-		g.drawString("Abilities: ", 20, 450, paint);
-		g.drawString("Damage: ", 20, 550, paint);
-		g.drawString("Defensive: ", 20, 650, paint);
-		g.drawString("Healing: ", 20, 750, paint);
+		g.drawString("Equipped Abilities: ", 20, 400, headingPaint);
+		g.drawString("Damage: " + Candybox.game.getAbilities()[0].getName(), 50, 500, paint);
+		g.drawString("Defensive: " + Candybox.game.getAbilities()[1].getName(), 50, 600, paint);
+		g.drawString("Healing: " + Candybox.game.getAbilities()[2].getName(), 50, 700, paint);
 
 
 	}

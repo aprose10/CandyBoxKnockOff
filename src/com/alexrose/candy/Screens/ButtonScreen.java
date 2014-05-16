@@ -55,7 +55,7 @@ public class ButtonScreen extends Screen{
 
 		//Log.d("YOLO", "ButtonScreen Paint is active " + deltaTime);
 		Graphics g = game.getGraphics();
-		g.drawRect(0, 0, 480, 800, Color.BLACK);
+		g.drawRect(0, 0, 490, 810, Color.BLACK);
 
 
 		//tests to see if finger is not touching screen
@@ -80,7 +80,7 @@ public class ButtonScreen extends Screen{
 		if(isScrollable){
 			//crashed here w index out of bounds when no items to buy
 			if(buttonInLockPos(buttons.get(1)) == false){
-				g.drawImage(Assets.upArrow, 0, 0);
+				g.drawImage(Assets.scrollUpArrow, 0, 0);
 			}
 
 			int a = buttons.size() - 1;
@@ -91,7 +91,9 @@ public class ButtonScreen extends Screen{
 			}
 		}
 
+		if(buttons.size() > 0){
 		buttons.get(0).drawButton(g);
+		}
 	}
 
 	private void slowScroll(double deltaTime){
