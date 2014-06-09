@@ -35,7 +35,7 @@ public class CandyBoxGame{
 
 	public CandyBoxGame(int gold, int crystals, String nameOfFarthestQuest, List<Object> itemNamesInInventory, List<Object> purchasedAbilityNames, List<Object> selectedAbilities2){
 		character = new Character("Hero", 75,25,50);
-		this.gold = gold + 99;
+		this.gold = gold;
 		this.crystals = crystals;
 		clickDates = new LinkedList<Date>();
 		createItemsInGame();
