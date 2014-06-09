@@ -1,13 +1,13 @@
 Angry Shrub;100;20;10
-Baby Troll;50;10;150
-Bigger Troll;100;20;200
-King Troll;200;30;300
-Baby Snow Wolf;5;50;100
-Mother Snow Wolf;10;70;150
-Yeti;500;40;400
-Haunting Ghost;0;30;200
+Baby Troll;50;30;50
+Bigger Troll;100;20;75
+King Troll;100;30;100
+Baby Snow Wolf;5;40;100
+Mother Snow Wolf;10;50;150
+Yeti;100;40;200
+Haunting Ghost;10;30;200
 Spooky Giant Bat;100;70;400
-Poison Cobra;50;50;200
+Poison Cobra;50;30;200
 Corrupted Farmer;10;30;300
 Corrupted Merchant;30;40;350
 Corrupted Little Girl;666;6;666
@@ -15,10 +15,10 @@ Corrupted Governor;300;150;500
 Mutated Fish;10;400;100
 Mutated Boar;100;200;300
 Angry Leprechaun;777;77;777
-Mutated Rat;0;50;200
-Poison Piles of Corpses;0;10;1000
+Mutated Rat;100;50;200
+Poison Piles of Corpses;100;10;1000
 Squeeky Tin Man;100;100;500
-Scared Lion;0;500;300
+Scared Lion;200;500;300
 Very Scary Scarecrow;200;150;500
 ANGRY LITTLE GIRL;1000;250;1000
 Satan's Servant;5000;300;1000

@@ -11,21 +11,19 @@ import com.alexrose.framework.Image;
 
 public class SkillTree {
 	private SkillTreeNode rootNode;
+	private ArrayList<String> purchasedAbilityNames;
 	public SkillTree(Ability ability1, Ability ability2, Ability ability3){
-		
+
 		rootNode = new SkillTreeNode(null, null);
-		
+
 		SkillTreeNode firstNode = new SkillTreeNode(ability1, rootNode);
-		firstNode.unlock();
 		rootNode.addChild(firstNode);
 		SkillTreeNode secondNode = new SkillTreeNode(ability2, rootNode);
-		secondNode.unlock();
 		rootNode.addChild(secondNode);
 		SkillTreeNode thirdNode = new SkillTreeNode(ability3, rootNode);
-		thirdNode.unlock();
 		rootNode.addChild(thirdNode);
 	}
-	
+
 	public void add(String parent, String name, Image img, int price, int cooldown, Category category, int value){
 		//Log.d("YOLO", "Parent Node: " + parent);
 		//Log.d("YOLO", "Child Node: " + name);
@@ -34,13 +32,13 @@ public class SkillTree {
 		SkillTreeNode newChildNode = new SkillTreeNode(createdAbility, parentNode);
 		parentNode.addChild(newChildNode);
 	}
-	
+
 	public SkillTreeNode findNodeByAbilityName(String name){
 
 		return checkNodeByName(rootNode, name);
 	}
 
-	
+
 	private SkillTreeNode checkNodeByName(SkillTreeNode givenNode, String name){
 		if(givenNode.getAbility() != null && givenNode.getAbility().getName().equals(name)){
 			return givenNode;
@@ -53,6 +51,22 @@ public class SkillTree {
 				}
 			}
 			return null;
+		}
+	}
+
+	public ArrayList<String> determinePurchased(){
+		purchasedAbilityNames = new ArrayList<String>();
+		checkNodeForPurchase(rootNode);
+		return purchasedAbilityNames;
+	}
+
+	public void checkNodeForPurchase(SkillTreeNode node){
+		if(node.getIsUnlocked() == true){
+			purchasedAbilityNames.add(node.getAbility().getName());
+		}
+		ArrayList<SkillTreeNode> children = node.getChildren();
+		for(int a = 0; a < children.size(); a++){
+			checkNodeForPurchase(children.get(a));
 		}
 	}
 }

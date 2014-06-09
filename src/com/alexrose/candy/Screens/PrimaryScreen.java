@@ -29,7 +29,7 @@ import com.parse.SaveCallback;
 
 public class PrimaryScreen extends ButtonScreen {
 	enum GameState {
-		Ready, Running, GameOver
+		Ready, Running, GameOver, Paused
 	}
 
 	private GameState state = GameState.Running;
@@ -38,6 +38,7 @@ public class PrimaryScreen extends ButtonScreen {
 	private Button questButton;
 	private Button storeButton;
 	private Button characterButton;
+	private float timePassed;
 
 	public PrimaryScreen(Game game) {
 		super(game, false, false);
@@ -62,50 +63,23 @@ public class PrimaryScreen extends ButtonScreen {
 
 		storeButton = new Button(20, 375, Assets.button, "Store");
 
+		//crashed here, null
+		Log.d("YOLO", "Character: " + Candybox.game.getCharacter());
 		questButton = new Button(20, 495, (Candybox.game.getCharacter().isAlive() ? Assets.button : Assets.buttonLOCKED), "Quests");
 
 		characterButton = new Button(20, 615, Assets.button, "Character");
 
-		saveToParse();
-
-
-	}
-
-	private void saveToParse(){
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("GameState");
-		final String android_id = Secure.getString(Candybox.activity.getContentResolver(), Secure.ANDROID_ID); 
-		query.whereEqualTo("AndroidID", android_id);
-		query.getFirstInBackground(new GetCallback<ParseObject>() {
-			public void done(ParseObject obj, ParseException e) {
-				if (obj != null) {
-					Log.d("YOLO", "Found in Parse, Gold:" + obj.getInt("Gold"));
-					obj.remove("SelectedAbilities");
-					//update existing
-				} else {
-					Log.d("YOLO", "Not found in Parse");
-					//save first time
-					obj = new ParseObject("GameState");
-					obj.put("AndroidID", android_id);
-				}
-				obj.addAll("SelectedAbilities", Candybox.game.getSelectedAbilitiesNames());
-				obj.put("Gold", Candybox.game.getGold());
-				obj.put("Crystals", Candybox.game.getCrystals());
-				if(Candybox.game.getFarthestQuest() == null){
-					obj.put("nameOfFarthestQuest", "");
-				}else{
-					obj.put("nameOfFarthestQuest", Candybox.game.getFarthestQuest());
-				}
-				obj.addAllUnique("Items", Candybox.game.getInventoryNames());
-				
-				obj.saveInBackground();
-			}
-
-
-		});
-
+		Candybox.saveToParse();
 
 	}
 
+	private void saveToParseTimer(float deltaTime){
+		timePassed = timePassed + deltaTime;
+		if(timePassed >= 1000){
+			Candybox.saveToParse();
+			timePassed = 0;
+		}
+	}
 
 	private void updateReady(List<TouchEvent> touchEvents) {
 
@@ -120,6 +94,9 @@ public class PrimaryScreen extends ButtonScreen {
 		List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
 		for (int i = 0; i < touchEvents.size(); i++) {
 			TouchEvent event = touchEvents.get(i);
+			if(event.x >= 125 && event.x <= 298 && event.y >= 60 && event.y <= 320 && event.type == event.TOUCH_DOWN){
+				Candybox.game.giveOneGold();
+			}
 			for (Button button : buttons) {
 
 				if(button.inButtonBounds(event) == true){
@@ -128,12 +105,12 @@ public class PrimaryScreen extends ButtonScreen {
 						return;
 					}
 					else if(button.name == "Store"){
-						Candybox.game.update();
+						Candybox.game.update(deltaTime);
 						game.setScreen(new StoreItemsScreen(game));
 						return;
 					}
 					else if(button.name == "Character"){
-						Candybox.game.update();
+						Candybox.game.update(deltaTime);
 						game.setScreen(new CharacterScreen(game));
 						return;
 					}
@@ -141,16 +118,14 @@ public class PrimaryScreen extends ButtonScreen {
 			}
 		}
 
-		Candybox.game.update();
+		Candybox.game.update(deltaTime);
 		if(Candybox.game.getCharacter().isAlive() == true && Candybox.game.isFirstQuestUnlocked() == true){
 			questButton.enableButton();
+			
 			//making quest button enabled if alive
 		}
-
-
-
-
-
+		
+		saveToParseTimer(deltaTime);
 	}
 
 	private void updateButtons() {
@@ -241,8 +216,20 @@ public class PrimaryScreen extends ButtonScreen {
 
 
 	@Override
-	public void resume() {
+	public void pause() {
+		if (state == GameState.Running){
+			state = GameState.Paused;
+			Log.d("YOLO", "Paused here");
+		}
 
+	}
+
+	@Override
+	public void resume() {
+		if (state == GameState.Paused){
+			state = GameState.Running;
+			Log.d("YOLO", "Resuming here");	
+		}
 	}
 
 	@Override
@@ -252,13 +239,7 @@ public class PrimaryScreen extends ButtonScreen {
 
 	@Override
 	public void backButton() {
-
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-
+		pause();
 	}
 
 }

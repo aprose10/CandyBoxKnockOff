@@ -30,7 +30,11 @@ public class QuestStep {
 		return containsMonster;
 	}
 	
+	//fixing null pointer exception
 	public Character getEnemy(){
+		if(enemy == null){
+			return new Character("", 0, 0, 0);
+		}
 		return enemy;
 	}
 }

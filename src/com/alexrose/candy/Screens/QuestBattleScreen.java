@@ -32,6 +32,7 @@ public class QuestBattleScreen extends ButtonScreen {
 	boolean battleResult;
 	Paint paint;
 	Paint namePaint;
+	Paint stepPaint;
 
 	public QuestBattleScreen(Game game, final QuestBattle batl) {
 		super(game, false, false);
@@ -42,13 +43,18 @@ public class QuestBattleScreen extends ButtonScreen {
 		paint.setTextAlign(Paint.Align.LEFT);
 		paint.setAntiAlias(true);
 		paint.setColor(Color.WHITE);
-		
+
 		namePaint = new Paint();
 		namePaint.setTextSize(30);
 		namePaint.setTextAlign(Paint.Align.CENTER);
 		namePaint.setAntiAlias(true);
 		namePaint.setColor(Color.WHITE);
 
+		stepPaint = new Paint();
+		stepPaint.setTextSize(70);
+		stepPaint.setTextAlign(Paint.Align.CENTER);
+		stepPaint.setAntiAlias(true);
+		stepPaint.setColor(Color.WHITE);
 		for(int a = 0; a < battle.getQuestAbilities().size(); a ++){
 			AbilityButton skillButton = new AbilityButton(a, battle.getQuestAbilities().get(a));
 			buttons.add(skillButton);
@@ -108,7 +114,7 @@ public class QuestBattleScreen extends ButtonScreen {
 	public void paint(float deltaTime) {
 		Graphics g = game.getGraphics();
 		g.drawRect(0, 0, 490, 810, Color.BLACK);
-		g.drawString("Step: " + battle.getStepSlot() + " of " + battle.getTotalSteps(), 240, 100, namePaint);
+		g.drawString("Step: " + battle.getStepSlot() + " of " + battle.getTotalSteps(), 240, 200, stepPaint);
 		if(battle.getCurrentStep().containsMonster() == true){
 			g.drawString("You have encountered a monster!", 10, 365, paint);
 			//crashed here once, tried to fix with if statement
@@ -126,7 +132,7 @@ public class QuestBattleScreen extends ButtonScreen {
 
 		}
 		else{
-			g.drawString("This spot seems to be empty...", 10, 150,paint);
+			g.drawString("This spot seems to be empty...", 10, 365,paint);
 		}
 
 		g.drawString("Hero's Health: " + Candybox.game.getCharacter().getCurrentHealth(), 10, 550, paint);

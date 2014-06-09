@@ -81,7 +81,7 @@ public class QuestCategoryScreen extends ButtonScreen {
 	public void paint(float deltaTime) {
 		super.paint(deltaTime);
 		Graphics g = game.getGraphics();
-		g.drawString("Stamina: 0", 5, 35, paint);
+		//g.drawString("Stamina: 0", 5, 35, paint);
 
 
 	}

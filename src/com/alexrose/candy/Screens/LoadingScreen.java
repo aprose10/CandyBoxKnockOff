@@ -20,20 +20,19 @@ public class LoadingScreen extends Screen {
     public void update(float deltaTime) {
         Graphics g = game.getGraphics();
         game.setScreen(new MainMenuScreen(game));
+ 
         
-        Assets.button = g.newImage("button.png", ImageFormat.RGB565);
         Assets.border = g.newImage("border.jpg", ImageFormat.RGB565);
         Assets.hero1 = g.newImage("hero1.png", ImageFormat.RGB565);
         Assets.hero2 = g.newImage("hero3.png", ImageFormat.RGB565);
         Assets.backButton = g.newImage("back button.png", ImageFormat.RGB565);
-        Assets.buttonLOCKED = g.newImage("buttonLocked.png", ImageFormat.RGB565);
         Assets.downArrow = g.newImage("downArrow2.png", ImageFormat.ARGB4444);
         Assets.scrollUpArrow = g.newImage("upArrow2.png", ImageFormat.ARGB4444);  
-        Assets.skillTreeUpArrow = g.newImage("hand up arrow.png", ImageFormat.ARGB4444);  
+        Assets.skillTreeUpArrow = g.newImage("upArrow.png", ImageFormat.RGB565);  
         Assets.treeButton1 = g.newImage("treeButton2.jpg", ImageFormat.ARGB4444);
         Assets.treeButton2 = g.newImage("treeButton3.jpg", ImageFormat.ARGB4444);
         
-       
+
     }
 
 

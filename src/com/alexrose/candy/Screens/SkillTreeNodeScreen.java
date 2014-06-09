@@ -29,7 +29,7 @@ public class SkillTreeNodeScreen extends ButtonScreen {
 		paint.setTextAlign(Paint.Align.LEFT);
 		paint.setAntiAlias(true);
 		paint.setColor(Color.WHITE);
-		
+
 		namePaint = new Paint();
 		namePaint.setTextSize(50);
 		namePaint.setTextAlign(Paint.Align.CENTER);
@@ -37,12 +37,17 @@ public class SkillTreeNodeScreen extends ButtonScreen {
 		namePaint.setColor(Color.WHITE);
 
 		if(node.getIsUnlocked() == false){
-			Button buyButton = new Button(25, 470, Assets.button, "Buy");
-			buttons.add(buyButton);
+			if(Candybox.game.getCrystals() >= node.getAbility().getPrice()){
+				Button buyButton = new Button(25, 470, Assets.button, "Buy");
+				buttons.add(buyButton);
+			}else{
+				Button buyButton = new Button(25,470,Assets.buttonLOCKED, "Buy");
+				buttons.add(buyButton);
+			}
 		}
 
 		if(node.getParentNode().getAbility() != null){
-			Button upButton = new Button(380, 25, Assets.skillTreeUpArrow, "  ");
+			Button upButton = new Button(300, 50, Assets.skillTreeUpArrow, "  ");
 			buttons.add(upButton);
 		}
 
@@ -97,15 +102,17 @@ public class SkillTreeNodeScreen extends ButtonScreen {
 					}
 					else if(button.getName() == "Buy"){
 						if(Candybox.game.getCrystals() >= node.getAbility().getPrice()){
-						node.unlock();
-						Candybox.game.spendCrystals(node.getAbility().getPrice());
-						game.setScreen(new SkillTreeNodeScreen(game, node));
+							node.unlock();
+							Candybox.game.spendCrystals(node.getAbility().getPrice());
+							Candybox.saveToParse();
+							game.setScreen(new SkillTreeNodeScreen(game, node));
 						}
 						return;
 
 					}
 					else if(button.getName() == "Equip"){
 						Candybox.game.setEquipedAbility(node.getAbility());
+						Candybox.saveToParse();
 						game.setScreen(new SkillTreeNodeScreen(game, node));
 						return;
 					}else{
@@ -128,17 +135,17 @@ public class SkillTreeNodeScreen extends ButtonScreen {
 
 		g.drawString(node.getAbility().getName(), 240, 150, namePaint);
 		if(node.getIsUnlocked() == false){
-		g.drawString("Price: " + node.getAbility().getPrice(),100, 450, paint);
+			g.drawString("Price: " + node.getAbility().getPrice(),100, 450, paint);
 		}
 		if(node.getAbility().isDamageAbility() == true){
-		g.drawString("Damage: " + node.getAbility().getValue(),100, 370, paint);
+			g.drawString("Damage: " + node.getAbility().getValue(),100, 370, paint);
 		}
 		if(node.getAbility().isDefensiveAbility() == true){
 			g.drawString("Armour Increase: " + node.getAbility().getValue(),100, 370, paint);
-			}
+		}
 		if(node.getAbility().isHealingAbility() == true){
 			g.drawString("Health Restored: " + node.getAbility().getValue(),100, 370, paint);
-			}
+		}
 		g.drawString("Cooldown (ms): " + node.getAbility().getCooldown(),100, 420, paint);
 		g.drawImage(node.getAbility().getImage(), 180, 200);
 

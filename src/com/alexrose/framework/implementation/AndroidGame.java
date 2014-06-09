@@ -39,7 +39,6 @@ import com.alexrose.inAppBilling.IabHelper;
 import com.alexrose.inAppBilling.IabResult;
 import com.alexrose.inAppBilling.Inventory;
 import com.alexrose.inAppBilling.Purchase;
-import com.facebook.*;
 
 
 public abstract class AndroidGame extends Activity implements Game {
@@ -53,14 +52,14 @@ public abstract class AndroidGame extends Activity implements Game {
 	WakeLock wakeLock;
 	public static boolean loggedIn = false;
 	public IabHelper mHelper;
-	private Session.StatusCallback statusCallback = 
+	/*private Session.StatusCallback statusCallback = 
 			new Session.StatusCallback() {
 		@Override
 		public void call(Session session, 
 				SessionState state, Exception exception) {
 			onSessionStateChange(session, state, exception);
 		}
-	};
+	};*/
 
 	public boolean mIsPaddleColor = false;
 	public static AndroidGame androidGame;
@@ -130,7 +129,7 @@ public abstract class AndroidGame extends Activity implements Game {
 		wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "MyGame");
 		//WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
 
-		Session session = Session.getActiveSession();
+		/*Session session = Session.getActiveSession();
 		if (session == null) {
 			if (savedInstanceState != null) {
 				session = Session.restoreSession(this, null, statusCallback, savedInstanceState);
@@ -142,7 +141,7 @@ public abstract class AndroidGame extends Activity implements Game {
 			if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
 				session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
 			}
-		}
+		}*/
 		
 	}
 
@@ -270,7 +269,7 @@ public abstract class AndroidGame extends Activity implements Game {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+		//Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 	}
 
 	@Override
@@ -323,7 +322,7 @@ public abstract class AndroidGame extends Activity implements Game {
 		super.onSaveInstanceState(outState);
 	}
 
-	public void onClickLogin() {
+/*public void onClickLogin() {
 		Session session = Session.getActiveSession();
 		if (!session.isOpened() && !session.isClosed()) {
 			Log.d("YOLO","open for read");
@@ -396,7 +395,7 @@ public abstract class AndroidGame extends Activity implements Game {
 										"Post Accomplished",
 										Toast.LENGTH_LONG).show();
 							}  
-							*/
+							
 						}
 
 					}); 
@@ -440,5 +439,5 @@ public abstract class AndroidGame extends Activity implements Game {
 			Log.d("YOLO", "it is logged out");
 			loggedIn = false;
 		}
-	}
+	}*/
 }

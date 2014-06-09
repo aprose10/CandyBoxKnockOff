@@ -17,7 +17,7 @@ private QuestAbility questAbility;
 			//g.drawString(name, 240, positionY + 75, buttonPaint); 
 		}
 		else{
-			g.drawString(Integer.toString((int)Math.round(questAbility.getCoolDown())), positionX + 40, positionY + 75, buttonPaint);
+			g.drawString(Integer.toString((int)Math.round(questAbility.getCoolDown())/100 + 1), positionX + 40, positionY + 75, buttonPaint);
 		}
 	}
 	

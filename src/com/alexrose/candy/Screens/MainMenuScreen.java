@@ -44,15 +44,20 @@ public class MainMenuScreen extends Screen {
 		for (int i = 0; i < len; i++) {
 			TouchEvent event = touchEvents.get(i);
 			if (event.type == TouchEvent.TOUCH_UP) {
-				game.setScreen(new PrimaryScreen(game));
+				
+				if(Candybox.game != null){
+					game.setScreen(new PrimaryScreen(game));
+				}
+				
+				
 				//PURCHASE NEW PADDLE COLOR
-				if (inBounds(event, 380, 346, 50, 36)) {
+				/*if (inBounds(event, 380, 346, 50, 36)) {
 					Log.d("YOLO", "Upgrade button clicked; launching purchase flow for upgrade.");
 					//setWaitScreen(true);
 
 					/* TODO: for security, generate your payload here for verification. See the comments on 
 					 *        verifyDeveloperPayload() for more info. Since this is a SAMPLE, we just use 
-					 *        an empty string, but on a production app you should carefully generate this. */
+					 *        an empty string, but on a production app you should carefully generate this.
 					String payload = ""; 
 
 					Candybox.activity.mHelper.launchPurchaseFlow(Candybox.activity, "paddlecolor", 10001, 
@@ -62,15 +67,15 @@ public class MainMenuScreen extends Screen {
 				if (inBounds(event, 50, 346, 100, 100)) {
 					Log.d("YOLO", "Facebook login button clicked; time to sign in");
 
-					AndroidGame.androidGame.onClickLogin();
+					//AndroidGame.androidGame.onClickLogin();
 				}
 				
 				if (inBounds(event, 100, 200, 72, 21)) {
 					Log.d("YOLO", "Facebook logout button clicked; time to sign in");
 
-					AndroidGame.androidGame.onClickLogout();
+					//AndroidGame.androidGame.onClickLogout();
 				}
-
+ */
 			}
 		}
 
@@ -90,13 +95,13 @@ public class MainMenuScreen extends Screen {
 	@Override
 	public void paint(float deltaTime) {
 		Graphics g = game.getGraphics();
-		g.drawString("TOUCH", 240, 400, paint);
-		if(AndroidGame.loggedIn() == true){
+		g.drawString("Tap to begin", 240, 400, paint);
+		//if(AndroidGame.loggedIn() == true){
 			//g.drawImage(Assets.facebookLogout, 100, 200);
-		}
-		else{
+		//}
+		//else{
 		//	g.drawImage(Assets.facebookButton, 50, 346);
-		}
+	//	}
 		
 		//anim.update(deltaTime);
 	}

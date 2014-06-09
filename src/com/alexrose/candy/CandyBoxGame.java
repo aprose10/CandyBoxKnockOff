@@ -5,8 +5,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 import com.alexrose.candy.Ability.Category;
 
@@ -18,7 +21,6 @@ public class CandyBoxGame{
 	private int gold;
 	private int crystals;
 	private int recoveryTime = 10000;
-	private Date lastGoldUpdate;
 	private Date lastHealthUpdate;
 	private ArrayList<Item> allItems = new ArrayList<Item>();
 	private ArrayList<Item> storeItems = new ArrayList<Item>();
@@ -28,12 +30,14 @@ public class CandyBoxGame{
 	private HashMap<String, ArrayList<Quest>> allQuests = new HashMap<String, ArrayList<Quest>>();
 	private SkillTree skillTree;
 	private HashMap<String, Character> allEnemies =  new HashMap<String, Character>();
+	private float timePassed;
+	private LinkedList<Date> clickDates;
 
 	public CandyBoxGame(int gold, int crystals, String nameOfFarthestQuest, List<Object> itemNamesInInventory, List<Object> purchasedAbilityNames, List<Object> selectedAbilities2){
-		character = new Character("Hero", 75,20,75);
+		character = new Character("Hero", 75,25,50);
 		this.gold = gold + 99;
 		this.crystals = crystals;
-		lastGoldUpdate = new Date();
+		clickDates = new LinkedList<Date>();
 		createItemsInGame();
 		createAbilities();
 		createEnemies();
@@ -42,26 +46,39 @@ public class CandyBoxGame{
 		unlockAllUnlockedQuests(farthestUnlockedQuest);
 		givePurchasedItems(itemNamesInInventory);
 		equipSelectedAbilities(selectedAbilities2);
+		givePurchasedAbilities(purchasedAbilityNames);
 	}
 
-	public void update(){
+	public void update(float deltaTime){
 
-		increaseGold();
+		increaseGold(deltaTime);
 		updateRecoveryTime();
 		checkItemsInShop();
 		checkQuests();
 
 	}
 
-	public void increaseGold(){
-		Date newTime = new Date();
-		long time = newTime.getTime() - lastGoldUpdate.getTime();
-		if(time >= 1000){
-			gold = (int) (gold + (time/1000));
-			lastGoldUpdate = newTime;
+	public void increaseGold(float deltaTime){
+		timePassed = timePassed + deltaTime;
+		if(timePassed >= 100){
+			gold = (int) (gold + 1);
+			timePassed = 0;
 		}
 
 	}
+	
+	public void giveOneGold(){
+		Date currentClick = new Date();
+		if(clickDates.size() < 3){
+			gold = gold +1;
+			clickDates.add(currentClick);
+		}else if( currentClick.getTime() - clickDates.peek().getTime() > 5000){
+			gold = gold +1;
+			clickDates.pop();
+			clickDates.add(currentClick);
+		}
+	}
+	
 	public int getGold(){
 		return gold;
 	}
@@ -85,7 +102,7 @@ public class CandyBoxGame{
 		}
 		inventory.add(purchasedItem);
 		character.updateStats(purchasedItem);
-		update();
+		update(0);
 	}
 
 	public void createItemsInGame(){
@@ -288,7 +305,6 @@ public class CandyBoxGame{
 
 	public void createAbilities(){
 		Log.d("YOLO", "Creating abilities ...");
-		//Only activates first one because it is in damage category
 		Ability sheepSpell = new Ability("BAHHH",Assets.sheepIcon, 0, 300, Category.DAMAGE, 0);
 		Ability sheepSpell2 = new Ability("BAHHH",Assets.sheepIcon2, 0, 300, Category.DEFENSIVE, 0);
 		Ability sheepSpell3 = new Ability("BAHHH",Assets.sheepIcon3, 0, 300, Category.HEALING, 0);
@@ -296,9 +312,9 @@ public class CandyBoxGame{
 		selectedAbilities[1] = sheepSpell2;
 		selectedAbilities[2] = sheepSpell3;
 
-		Ability shield = new Ability("Shields Up",Assets.shieldIcon,  10, 1000, Category.DEFENSIVE, 100);
-		Ability heal = new Ability("Bandages",Assets.healIcon, 10, 1000, Category.HEALING, 100);
-		Ability fireball = new Ability("Fireball",Assets.fireballIcon, 10, 2000, Category.DAMAGE, 1000);
+		Ability shield = new Ability("Shields Up",Assets.shieldIcon,  2, 1000, Category.DEFENSIVE, 100);
+		Ability heal = new Ability("Bandages",Assets.healIcon, 2, 1000, Category.HEALING, 100);
+		Ability fireball = new Ability("Fireball",Assets.fireballIcon, 2, 2000, Category.DAMAGE, 1000);
 
 		skillTree = new SkillTree(shield, heal, fireball);
 
@@ -323,7 +339,7 @@ public class CandyBoxGame{
 	public Ability[] getAbilities(){
 		return selectedAbilities;
 	}
-	
+
 	public ArrayList<String> getSelectedAbilitiesNames(){
 		ArrayList<String> names = new ArrayList<String>();
 		for(int a = 0; a < selectedAbilities.length; a++){
@@ -331,23 +347,26 @@ public class CandyBoxGame{
 		}
 		return names;
 	}
-	
+
 	public void equipSelectedAbilities(List<Object> savedSelectedAbilities){
 		if(savedSelectedAbilities == null){
 			return;
 		}
 		for(int a = 0; a < savedSelectedAbilities.size(); a++){
-			Ability selectedAbility = skillTree.findNodeByAbilityName((String)savedSelectedAbilities.get(a)).getAbility();
-			if(selectedAbility.isDamageAbility() == true){
-				selectedAbilities[0] = selectedAbility;
-			}
+			String abilityName = (String)savedSelectedAbilities.get(a);
+			if(!abilityName.equals("BAHHH")){
+				Ability selectedAbility = skillTree.findNodeByAbilityName(abilityName).getAbility();
+				if(selectedAbility.isDamageAbility() == true){
+					selectedAbilities[0]  = selectedAbility;
+				}
 
-			if(selectedAbility.isDefensiveAbility() == true){
-				selectedAbilities[1] = selectedAbility;
-			}
+				if(selectedAbility.isDefensiveAbility() == true){
+					selectedAbilities[1] = selectedAbility;
+				}
 
-			if(selectedAbility.isHealingAbility() == true){
-				selectedAbilities[2] = selectedAbility;
+				if(selectedAbility.isHealingAbility() == true){
+					selectedAbilities[2] = selectedAbility;
+				}
 			}
 		}
 	}
@@ -472,12 +491,11 @@ public class CandyBoxGame{
 		}
 		return names;
 	}
-	//Can't seem to find smelly leather pants after purchasing wood sword
 	public void givePurchasedItems(List<Object> items){
 		if(items == null){
 			return;
 		}
-		
+
 		for(int a = 0; a < items.size(); a ++){
 			String itemName = (String)items.get(a);
 			//Log.d("YOLO", "Name of Item: " + itemName);
@@ -485,14 +503,31 @@ public class CandyBoxGame{
 				if(allItems.get(i).getName().equals(itemName)){
 					//Log.d("YOLO", "Purchased Item: " + allItems.get(i).getName());
 					purchaseItem(allItems.get(i), false);
+					allItems.remove(i);
+					break;
 				}
 			}
 			for(int i = 0; i < storeItems.size(); i++){
 				if(storeItems.get(i).getName().equals(itemName)){
 					//Log.d("YOLO", "Purchased Item: " + storeItems.get(i).getName());
 					purchaseItem(storeItems.get(i), false);
+					break;
 				}
 			}
+		}
+	}
+
+	public ArrayList<String> getPurchasedAbilities(){
+		return skillTree.determinePurchased();
+	}
+
+	public void givePurchasedAbilities(List<Object> abilities){
+		if(abilities == null){
+			return;
+		}
+		for(int a = 0; a < abilities.size(); a++){
+			String abilityName = (String)abilities.get(a);
+			skillTree.findNodeByAbilityName(abilityName).unlock();
 		}
 	}
 
